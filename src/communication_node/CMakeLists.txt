@@ -57,8 +57,6 @@ add_message_files(FILES
   Data_Position.msg
   Data_Map.msg
   Data_Odom.msg
-  Data_MtA.msg
-  Data_AtM.msg
   Data_Goal.msg
 
 )
@@ -90,7 +88,7 @@ add_action_files(
 
 generate_messages(
   DEPENDENCIES
-  actionlib_msgs aut_exploration std_msgs sensor_msgs  nav_msgs
+  actionlib_msgs std_msgs sensor_msgs  nav_msgs
 )
 
 
