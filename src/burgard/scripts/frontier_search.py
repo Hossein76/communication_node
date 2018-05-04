@@ -10,6 +10,7 @@ class Frontier:
         self.size=0;
         self.min_distance=0.0;
         self.travel_point=Point();
+        self.points=[];
 
 class FrontierSearch:
      # * @brief Constructor for search task
@@ -25,6 +26,7 @@ class FrontierSearch:
         self.min_frontier_size_=min_frontier_size;
         self.travel_point_=travel_point;
         self.map_=[];
+        self.robot_pose=None;
 
     # /**
     #  * @brief Runs search implementation, outward from the start position
@@ -32,9 +34,10 @@ class FrontierSearch:
     #  * @return List of frontiers, if any
     #  */
     def searchFrom(self,position):
+        self.robot_pose=position;
         mx = (int)((position.x - self.costmap_.info.origin.position.x) / self.costmap_.info.resolution);
         my = (int)((position.y - self.costmap_.info.origin.position.y) / self.costmap_.info.resolution);
-
+        test_listofpoints=[];
         frontier_list=[];
         self.map_=self.costmap_.data;
         self.size_x_ = self.costmap_.info.width;
@@ -68,11 +71,13 @@ class FrontierSearch:
                                #check if cell is new frontier cell (unvisited, NO_INFORMATION, free neighbour)
                     elif(self.isNewFrontierCell(nbr, frontier_flag)):
                                frontier_flag[nbr] = True;
-                               new_frontier = self.buildNewFrontier(nbr, pos, frontier_flag);
+                               test_new_frontier = self.buildNewFrontier(nbr, pos, frontier_flag);
+                               new_frontier=test_new_frontier[0];
                                if(new_frontier.size > self.min_frontier_size_):
                                    frontier_list.append(new_frontier);
+                                   test_listofpoints.append(test_new_frontier[1]);
 
-        return frontier_list;
+        return [frontier_list,test_listofpoints];
 
      #  /**
      # * @brief Starting from an initial cell, build a frontier from valid adjacent cells
@@ -83,6 +88,7 @@ class FrontierSearch:
      # */
     def buildNewFrontier(self, initial_cell,  reference,  frontier_flag):
         #initialize frontier structure
+        test_listofpoints=[]
         output=Frontier();
         centroid=Point();
         middle=Point();
@@ -133,7 +139,8 @@ class FrontierSearch:
                     #self.costmap_.mapToWorld(mx,my,wx,wy);
                     wx = self.costmap_.info.origin.position.x + (mx + 0.5) * self.costmap_.info.resolution;
                     wy = self.costmap_.info.origin.position.y + (my + 0.5) * self.costmap_.info.resolution;
-
+                    test_listofpoints.append(Point(wx,wy,0.0));
+                    output.points.append(Point(wx,wy,0.0));
                     #update frontier size
                     output.size+=1;
 
@@ -142,7 +149,7 @@ class FrontierSearch:
                     centroid.y += wy;
 
                     #determine frontier's distance from robot, going by closest gridcell to robot
-                    distance = math.sqrt(((float(reference_x)-float(wx))**2.0) + ((float(reference_y)-float(wy))**2.0));
+                    distance = math.sqrt(((float(self.robot_pose.x)-float(wx))**2.0) + ((float(self.robot_pose.y)-float(wy))**2.0));
                     if(distance < output.min_distance):
                         output.min_distance = distance;
                         middle.x = wx;
@@ -166,7 +173,7 @@ class FrontierSearch:
             #point already set
 
 
-        return output;
+        return [output,test_listofpoints];
 
      #  /**
      # * @brief isNewFrontierCell Evaluate if candidate cell is a valid candidate for a new frontier.

@@ -10,10 +10,10 @@
       <arg name="robotname" value="robot1"/>
 </include>
 <include file="$(find setup)/launch/p3at_gmapping.launch">
-      <arg name="robotname" value="robot2"/>
+      <arg name="robotname" value="robot0"/>
 </include>
 <include file="$(find setup)/launch/p3at_move_base.launch">
-      <arg name="robotname" value="robot2"/>
+      <arg name="robotname" value="robot0"/>
 </include>
 
 
