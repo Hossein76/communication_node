@@ -19,13 +19,14 @@ from communication_node.msg import *
 from nav_msgs.msg import *
 from environment_information import get_object_distance ,get_n_walls_between
 from propagation_models import *
-propagation_parameters={ "decay_factor":2.2,"l0":40,"threshold":93}
+propagation_parameters={ "decay_factor":3.2,"l0":40,"threshold":93}
 connection_list=[];
 direct_connection=[];
 debuger_mode=False;
 information_logger=None;
 robots_list=[];
-prop_model="1sm";
+# prop_model="1sm";
+prop_model="mwm"
 
 
 
@@ -102,6 +103,7 @@ def main():
         multihub();
         for i in range(0,len(connection_list)):
             rospy.set_param("/connection_list_"+connection_list[i][0],connection_list[i]);
+            rospy.set_param("/direct_connection_list_"+direct_connection[i][0],direct_connection[i]);
         #print("update done");
         rate.sleep();
     rospy.spin();

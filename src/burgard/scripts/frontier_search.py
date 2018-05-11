@@ -166,6 +166,8 @@ class FrontierSearch:
             pass;
         elif(self.travel_point_ == "middle"):
             output.travel_point = middle;
+        elif(self.travel_point_ == "balanced"):
+            output.travel_point = Point((middle.x+centroid.x)/2,(middle.y+centroid.y)/2,0.0);
         elif(self.travel_point_ == "centroid"):
             output.travel_point = centroid;
         else:
