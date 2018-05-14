@@ -120,7 +120,7 @@ class FrontierSearch:
         reference_x = self.costmap_.info.origin.position.x + (rx + 0.5) * self.costmap_.info.resolution;
         reference_y = self.costmap_.info.origin.position.y + (ry + 0.5) * self.costmap_.info.resolution;
 
-
+        temp_var=0;
         while(not bfs.empty()):
             idx = bfs.get();
 
@@ -131,29 +131,30 @@ class FrontierSearch:
 
                     #mark cell as frontier
                     frontier_flag[nbr] = True;
-
-                    #self.costmap_.indexToCells(nbr,mx,my);
-                    my = int(nbr / self.size_x_);
-                    mx = nbr - (my * self.size_x_);
-
-                    #self.costmap_.mapToWorld(mx,my,wx,wy);
-                    wx = self.costmap_.info.origin.position.x + (mx + 0.5) * self.costmap_.info.resolution;
-                    wy = self.costmap_.info.origin.position.y + (my + 0.5) * self.costmap_.info.resolution;
-                    test_listofpoints.append(Point(wx,wy,0.0));
-                    output.points.append(Point(wx,wy,0.0));
+                    temp_var=1-temp_var;
                     #update frontier size
                     output.size+=1;
+                    #self.costmap_.indexToCells(nbr,mx,my);
+                    if (temp_var==1):
+                        my = int(nbr / self.size_x_);
+                        mx = nbr - (my * self.size_x_);
 
-                    #update centroid of frontier
-                    centroid.x += wx;
-                    centroid.y += wy;
+                        #self.costmap_.mapToWorld(mx,my,wx,wy);
+                        wx = self.costmap_.info.origin.position.x + (mx + 0.5) * self.costmap_.info.resolution;
+                        wy = self.costmap_.info.origin.position.y + (my + 0.5) * self.costmap_.info.resolution;
+                        test_listofpoints.append(Point(wx,wy,0.0));
+                        output.points.append(Point(wx,wy,0.0));
 
-                    #determine frontier's distance from robot, going by closest gridcell to robot
-                    distance = math.sqrt(((float(self.robot_pose.x)-float(wx))**2.0) + ((float(self.robot_pose.y)-float(wy))**2.0));
-                    if(distance < output.min_distance):
-                        output.min_distance = distance;
-                        middle.x = wx;
-                        middle.y = wy;
+                        #update centroid of frontier
+                        centroid.x += wx;
+                        centroid.y += wy;
+
+                        #determine frontier's distance from robot, going by closest gridcell to robot
+                        distance = math.sqrt(((float(self.robot_pose.x)-float(wx))**2.0) + ((float(self.robot_pose.y)-float(wy))**2.0));
+                        if(distance < output.min_distance):
+                            output.min_distance = distance;
+                            middle.x = wx;
+                            middle.y = wy;
                     #add to queue for breadth first search
                     bfs.put(nbr);
 
