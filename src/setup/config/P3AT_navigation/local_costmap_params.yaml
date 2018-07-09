@@ -3,8 +3,8 @@ local_costmap:
   robot_base_frame: base_link
   static_map: false
   rolling_window: true
-  width: 6.0
-  height: 6.0
+  width: 8.4
+  height: 8.4
   resolution: 0.12
   plugins:
      - {name: obstacles_costmap2d,       type: "costmap_2d::ObstacleLayer"}
