@@ -131,13 +131,20 @@ class FrontierSearch:
 
                     #mark cell as frontier
                     frontier_flag[nbr] = True;
+
+                    # for every 2 points process only one of them to reduce the size of frontier list
+                    # the following line of code and the following if statement are there to ensure that only 1 out of every 2 points
+                    # are taken into considration when creating frontiers. this is an effort to speed up the the burgard algorithm
+                    # to reverse these chagnes simply delet the following line of code and bring everything out of if statement
                     temp_var=1-temp_var;
-                    #update frontier size
-                    output.size+=1;
-                    #self.costmap_.indexToCells(nbr,mx,my);
                     if (temp_var==1):
+
+                        #self.costmap_.indexToCells(nbr,mx,my);
                         my = int(nbr / self.size_x_);
                         mx = nbr - (my * self.size_x_);
+
+                        #update frontier size
+                        output.size+=1;
 
                         #self.costmap_.mapToWorld(mx,my,wx,wy);
                         wx = self.costmap_.info.origin.position.x + (mx + 0.5) * self.costmap_.info.resolution;

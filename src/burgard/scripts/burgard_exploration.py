@@ -69,12 +69,14 @@ class MyWrapper:
         self.odom_subscriber=rospy.Subscriber("/"+robot_name_space+"/odom", Odometry, self.odom_callback);
         self.robot_x=None;
         self.robot_y=None;
+        self.map_flag=0;
     def odom_callback(self,odom_data):
         self.robot_x=odom_data.pose.pose.position.x;
         self.robot_y=odom_data.pose.pose.position.y;
     def set_Map(self,map_data):
         global merged_map_lock;
         global merged_map;
+        self.map_flag=1;
         merged_map_lock.acquire();
         if(merged_map==None):
             merged_map_lock.release();
@@ -302,6 +304,13 @@ def burgard():
     global goal_publisher,my_current_goal,other_robots_list,my_goals;
     while(merged_map==None):
         pass;
+    rospy.sleep(5.0);
+    temp_var=0;
+    while temp_var==0:
+        temp_var=1;
+        for i in other_robots_list:
+            temp_var*=i.map_flag;
+
     while not rospy.is_shutdown():
         merged_map_lock.acquire();
         print(name_space,"going for frointiers")
@@ -358,10 +367,10 @@ def burgard():
         send_goal(frontiers[0].travel_point.x,frontiers[0].travel_point.y);
         rospy.sleep(3.0);
         time_counter=0;
-        rate = rospy.Rate(2.0);
-        while current_goal_status==False and time_counter<90:
+        rate = rospy.Rate(0.4);
+        while current_goal_status==False and time_counter<140:
             rate.sleep();
-            time_counter+=2;
+            time_counter+=2.5;
             for i in other_robots_list:
                 new_data=Data_Goal();
                 new_data.source=name_space;

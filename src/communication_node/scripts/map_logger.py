@@ -59,7 +59,8 @@ class map_path:
         for i in self.map_data:
             if i>=0 :
                 explored_percent+=1;
-        self.map_percent=explored_percent/10000.0;
+        number_of_cells_in_costmap=float(250000)# (width/costamp_resolution)*(height/costamp_resolution)
+        self.map_percent=(explored_percent/number_of_cells_in_costmap)*100;
         self.t_lock_map.release();
         return self.map_percent;
 
@@ -78,9 +79,9 @@ def main():
     if debuger_mode==True :
          log_file=rospy.get_param("log_file",default="results")
          log_folder=rospy.get_param("log_folder",default="map")
-         if not os.path.exists("/home/sosvr/communication_node_project/communication_node/results_pack/"+log_folder):
-             os.makedirs("/home/sosvr/communication_node_project/communication_node/results_pack/"+log_folder)
-         map_logger =  open("/home/sosvr/communication_node_project/communication_node/results_pack/"+log_folder+"/"+log_file+"_map.log", "w")
+         if not os.path.exists("/home/sosvr/communication_node_project/communication_node2/results_pack/"+log_folder):
+             os.makedirs("/home/sosvr/communication_node_project/communication_node2/results_pack/"+log_folder)
+         map_logger =  open("/home/sosvr/communication_node_project/communication_node2/results_pack/"+log_folder+"/"+log_file+"_map.log", "w")
          map_logger.write("\n \n \n ###################### \n ###################### \n")
          map_logger.write("\n This is the result of test on "+strftime("%Y-%m-%d %H:%M:%S", gmtime()) + " GMT time \n")
 

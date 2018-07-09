@@ -25,8 +25,8 @@ direct_connection=[];
 debuger_mode=False;
 information_logger=None;
 robots_list=[];
-# prop_model="1sm";
-prop_model="mwm"
+prop_model="1sm";
+
 
 
 
@@ -39,6 +39,18 @@ def line_of_sight():
     for i in range(0,len(connection_list)):
         for j in range(i,len(robots_list)):
             if (connection_list[i][0]==robots_list[j]):continue;
+            if prop_model=="range":
+                distance = get_object_distance(robots_list[i],robots_list[j])
+                if(distance < 30):
+                    connection_list[i][1+j]=1;
+                    direct_connection[i][1+j]=1;
+                    connection_list[j][1+i]=1;
+                    direct_connection[j][1+i]=1;
+                else:
+                     connection_list[i][1+j]=0;
+                     direct_connection[i][1+j]=0;
+                     connection_list[j][1+i]=0;
+                     direct_connection[j][1+i]=0;
             if prop_model=="1sm":
                 distance = get_object_distance(robots_list[i],robots_list[j]);
                 if(distance==-1 or distance==None):
