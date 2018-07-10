@@ -50,9 +50,10 @@ class path_wrapper:
 
     def path_lenght_calculator(self):
         self.t_lock_path.acquire();
-        for i in range(self.poses_lenght,len(self.poses)-1):
-            x=(self.poses[i].pose.position.x-data.poses[i+1].pose.position.x)*(self.poses[i].pose.position.x-data.poses[i+1].pose.position.x)
-            y=(self.poses[i].pose.position.y-data.poses[i+1].pose.position.y)*(self.poses[i].pose.position.y-data.poses[i+1].pose.position.y)
+        for i in range(self.poses_lenght,len(self.poses)):
+            if (i==0):continue
+            x=(self.poses[i].pose.position.x-self.poses[i-1].pose.position.x)*(self.poses[i].pose.position.x-self.poses[i-1].pose.position.x)
+            y=(self.poses[i].pose.position.y-self.poses[i-1].pose.position.y)*(self.poses[i].pose.position.y-self.poses[i-1].pose.position.y)
             self.path_lenght+=float("{0:.2f}".format(math.sqrt(y+x)));
         self.poses_lenght=len(self.poses);
         self.t_lock_path.release();
@@ -82,7 +83,7 @@ def main():
         path_logger.write("\n This is the result of test on "+strftime("%Y-%m-%d %H:%M:%S", gmtime()) + " GMT time \n")
 
     for i in robots_list:
-        info_list.append(path_wrapper(i,threading.Lock()));
+        info_list.append(path_wrapper(i,threading.Lock(),"trajectory"));
 
     rate = rospy.Rate(0.05)
     base_time = 0;

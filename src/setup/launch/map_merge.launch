@@ -12,7 +12,6 @@
     <param name="estimation_confidence" value="1.0"/>
   </node>
 
- <node pkg="aut_exploration" type="Percentage_node.py" name="percent" />
 
 
 </launch>

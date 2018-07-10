@@ -270,8 +270,8 @@ def map_callback(map_data):
         merged_map=map_data;
         temp_map=np.array([map_data.data,list(temp_map2)]);
         merged_map.data=list(np.max(temp_map,axis=0));
-    merged_map_lock.release();
     if (map_pub_counter==0):
+        map_pub_counter+=map_pub_frequnecy
         for i in other_robots_list:
             if map_publisher==None:continue;
             new_data=Data_Map();
@@ -283,6 +283,32 @@ def map_callback(map_data):
         map_pub_counter=0;
     else:
         map_pub_counter+=map_pub_frequnecy;
+    merged_map_lock.release();
+
+
+
+def share_map():
+    global merged_map,merged_map_lock;
+    global other_robots_list;
+    global map_publisher;
+    global map_pub_counter,map_pub_frequnecy;
+    merged_map_lock.acquire();
+    if (map_pub_counter==0):
+        map_pub_counter+=map_pub_frequnecy
+        for i in other_robots_list:
+            if map_publisher==None:continue;
+            new_data=Data_Map();
+            new_data.source=name_space;
+            new_data.destination=i.robot_name_space;
+            new_data.data=merged_map;
+            map_publisher.publish(new_data);
+    elif(map_pub_counter>=10):
+        map_pub_counter=0;
+    else:
+        map_pub_counter+=map_pub_frequnecy;
+    merged_map_lock.release();
+
+
 
 
 def odom_callback(odom_data):
@@ -307,9 +333,11 @@ def burgard():
     rospy.sleep(5.0);
     temp_var=0;
     while temp_var==0:
+        share_map()
         temp_var=1;
         for i in other_robots_list:
             temp_var*=i.map_flag;
+        rospy.sleep(1.0);
 
     while not rospy.is_shutdown():
         merged_map_lock.acquire();
