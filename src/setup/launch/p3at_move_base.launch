@@ -26,8 +26,8 @@
 
       <!--param name="base_global_planner" type="string" value="navfn/NavfnROS" /-->
       <param name="conservative_reset_dist" type="double" value="3.0" />
-      <param name="controller_frequency" type="double" value="20.0" />
-      <param name="planner_frequency" type="double" value="0.4" />
+      <param name="controller_frequency" type="double" value="15.0" />
+      <param name="planner_frequency" type="double" value="0.2" />
       <!--param name="base_global_planner" type="string" value="global_planner/GlobalPlanner" />
       <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/-->
       <rosparam>
