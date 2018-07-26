@@ -46,13 +46,13 @@
               </horizontal>
             </scan>
             <range>
-              <min>0.08</min>
-              <max>100.0</max>
+              <min>0.05</min>
+              <max>330.0</max>
               <resolution>0.01</resolution>
             </range>
           </ray>
           <plugin name="gazebo_ros_${name}_controller" filename="libgazebo_ros_laser.so">
-            <gaussianNoise>0.005</gaussianNoise>
+            <!--gaussianNoise>0.005</gaussianNoise-->
             <alwaysOn>true</alwaysOn>
             <updateRate>${update_rate}</updateRate>
             <topicName>${ros_topic}</topicName>
