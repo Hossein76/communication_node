@@ -59,7 +59,7 @@ class map_path:
         for i in self.map_data:
             if i>=0 :
                 explored_percent+=1;
-        number_of_cells_in_costmap=float(250000)# (width/costamp_resolution)*(height/costamp_resolution)
+        number_of_cells_in_costmap=float(1562500)# (width/costamp_resolution)*(height/costamp_resolution)
         self.map_percent=(explored_percent/number_of_cells_in_costmap)*100;
         self.t_lock_map.release();
         return self.map_percent;

@@ -8,6 +8,7 @@ global_costmap:
   height:                     300.0
   origin_x:                   -150.0
   origin_y:                   -150.0
+  static:                     true
 
   plugins:
      - {name: static,                    type: "costmap_2d::StaticLayer"}

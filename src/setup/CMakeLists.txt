@@ -1,28 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(setup)
-
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  costmap_2d
-  nav_msgs
-  tf
-  geometry_msgs
-  sensor_msgs
-  cv_bridge
-  std_msgs
-  image_transport
-  gazebo_plugins
-  gazebo_ros
-)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy nav_msgs tf geometry_msgs sensor_msgs std_msgs)
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-## Find gazebo
-find_package(gazebo REQUIRED)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
-include_directories(${GAZEBO_INCLUDE_DIRS})
-link_directories(${GAZEBO_LIBRARY_DIRS})
 
 ## Find OGRE and OGRE-Paging 
 include (FindPkgConfig)
@@ -49,13 +30,8 @@ catkin_package(
  rospy
  tf
  sensor_msgs
- cv_bridge
  std_msgs
- image_transport
  geometry_msgs
- costmap_2d
- gazebo_plugins
- gazebo_ros
  INCLUDE_DIRS 
  LIBRARIES
 )
@@ -63,5 +39,3 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
-
