@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
-  <param name="log_file" type="string" value="results1"/>
-  <param name="log_folder" type="string" value="pack2/map1"/>
+  <param name="log_file" type="string" value="results11"/>
+  <param name="log_folder" type="string" value="pack3/map1"/>
   <param name="debuger_mode" type="boolean" value="True"/>
     <node pkg="communication_node" type="map_logger.py" name="map_info_node" output="screen" />
     <node pkg="communication_node" type="path_logger.py" name="path_info_node" output="screen" />
